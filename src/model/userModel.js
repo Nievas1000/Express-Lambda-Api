@@ -1,7 +1,6 @@
 const { default: axios } = require('axios');
-require('dotenv').config();
+// require('dotenv').config();
 exports.getUser = async (email) => {
-	console.log(email);
 	const query = {
 		query: `SELECT User_name,First_name,Last_name,Create_date,Last_login, USER_APPLICATION_KEY FROM users WHERE User_name = '${email}'`,
 	};
@@ -34,7 +33,6 @@ exports.createUser = async (
 				'x-api-key': process.env.TOKEN_API,
 			},
 		});
-		console.log(response);
 		return response.data;
 	} catch (error) {
 		return error;

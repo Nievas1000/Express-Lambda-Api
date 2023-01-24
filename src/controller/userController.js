@@ -12,7 +12,7 @@ exports.getUser = async (req, res) => {
 	if (user.body.length > 0) {
 		res.send({ status: user.statusCode, user: user.body[0] });
 	} else {
-		const response = this.createUser(userName, firstName, lastName);
+		const response = await this.createUser(userName, firstName, lastName);
 		res.send(response);
 	}
 };
@@ -35,7 +35,7 @@ exports.createUser = async (userName, firstName, lastName) => {
 	);
 	console.log(user);
 	if (user) {
-		return { status: user.statusCode };
+		return user.statusCode;
 	} else {
 		return { message: 'User not found' };
 	}
