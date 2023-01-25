@@ -1,4 +1,5 @@
 const { default: axios } = require('axios');
+const md5 = require('md5');
 const { encrypt } = require('../Helpers/handleBcrypt');
 const userModel = require('../model/userModel');
 // require('dotenv').config();
@@ -24,7 +25,7 @@ exports.createUser = async (userName, firstName, lastName) => {
 	const dateNow = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(
 		-2
 	)}-${('0' + date.getDate()).slice(-2)}`;
-	const userApplicationKey = Math.random().toString(36).substring(2);
+	const userApplicationKey = `c6j${md5(`${userName}${dateNow}This_is_Salt`)}`;
 	const user = await userModel.createUser(
 		userName,
 		encryptFirstName,
