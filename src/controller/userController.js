@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-const md5 = require('md5');
+const hash = require('object-hash');
 const { encrypt } = require('../Helpers/handleBcrypt');
 const userModel = require('../model/userModel');
 // require('dotenv').config();
@@ -11,10 +11,10 @@ exports.getUser = async (req, res) => {
 	const user = await userModel.getUser(userName);
 	console.log(user);
 	if (user.body.length > 0) {
-		res.send({ status: user.statusCode, user: user.body[0] });
+		res.send({ status: 200, message: 'Succesfull' });
 	} else {
 		const response = await this.createUser(userName, firstName, lastName);
-		res.send(response);
+		res.send({ response });
 	}
 };
 
@@ -25,7 +25,11 @@ exports.createUser = async (userName, firstName, lastName) => {
 	const dateNow = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(
 		-2
 	)}-${('0' + date.getDate()).slice(-2)}`;
-	const userApplicationKey = `c6j${md5(`${userName}${dateNow}This_is_Salt`)}`;
+
+	const userApplicationKey = `c6j${hash.MD5(
+		`${userName}${dateNow}This_is_Salt`
+	)}`;
+
 	const user = await userModel.createUser(
 		userName,
 		encryptFirstName,
@@ -50,9 +54,9 @@ exports.getTokenGithub = async (req, res) => {
 		const start = response.data.indexOf('=');
 		const end = response.data.indexOf('&');
 		const data = response.data.substring(start + 1, end);
-		res.send(data);
+		res.send({ data });
 	} catch (error) {
-		res.send(error);
+		res.send({ message: 'Cannot access to token' });
 	}
 };
 
@@ -64,8 +68,8 @@ exports.getDataByGitHub = async (req, res) => {
 			},
 		});
 		const data = response.data;
-		res.send(data);
+		res.send({ data });
 	} catch (error) {
-		res.send(error);
+		res.send({ message: 'Cannot get data to user' });
 	}
 };

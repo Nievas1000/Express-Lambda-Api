@@ -1,6 +1,9 @@
 const express = require('express');
+express.csrf();
 const cors = require('cors');
 const app = express();
+const helmet = require('helmet');
+app.use(helmet());
 
 app.use(
 	cors({

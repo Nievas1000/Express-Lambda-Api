@@ -39,6 +39,28 @@ jobs:
           fields: repo,message,author,eventName,workflow,job,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ERROR }}
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: snyk/actions/setup@master
+      - uses: actions/setup-go@v1
+        with:
+          go-version: '1.13'
+      - name: Snyk exluide
+        run: snyk ignore --file-path=src/Helpers/handleBcrypt.js
+      - name: Snyk monitor
+        run: snyk code test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Send Slack Notification on Failure
+        if: ${{ failure() }}
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,author,eventName,workflow,job,took
+        env: 
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
   test:
     needs: [lint]
     runs-on: ubuntu-latest
@@ -64,7 +86,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ERROR }}
 
   slack_pull_request:
-    needs: [test]
+    needs: [lint]
     runs-on: ubuntu-latest
     steps:
     - name: Notify slack pull request open
