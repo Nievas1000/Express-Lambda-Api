@@ -48,7 +48,7 @@ jobs:
         with:
           go-version: '1.13'
       - name: Snyk monitor
-        run: snyk code test
+        run: snyk test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Send Slack Notification on Failure
@@ -108,6 +108,7 @@ jobs:
       uses: jun3453/slack-pr-open-notification-action@v1.3.0
   
   deploy:
+    if: ${{ github.event_name == 'push' }}
     needs: [test]
     runs-on: ubuntu-latest
     steps:
@@ -121,7 +122,6 @@ jobs:
       - name: Install Dependencies 
         run: npm ci
       - name: Serverless deploy
-        if: ${{ github.event_name == 'push' }}
         uses: serverless/github-action@v3.1
         with:
           args: deploy

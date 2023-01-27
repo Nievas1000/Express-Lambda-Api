@@ -1,9 +1,10 @@
 const express = require('express');
-express.csrf();
+const csrf = require('csurf');
 const cors = require('cors');
 const app = express();
 const helmet = require('helmet');
 app.use(helmet());
+csrf({ cookie: true });
 
 app.use(
 	cors({

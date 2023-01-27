@@ -14,8 +14,8 @@ describe('Send data to api', () => {
 			body: bodyTest,
 		}).then(({ body }) => {
 			cy.log(body);
-			const { user, status } = body;
-			expect(user.User_name).to.deep.equal(bodyTest.email);
+			const { message, status } = body;
+			expect(message).to.deep.equal('Succesfull');
 			expect(status).to.deep.equal(200);
 		});
 	});
