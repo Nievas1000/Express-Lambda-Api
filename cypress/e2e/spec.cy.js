@@ -15,7 +15,7 @@ describe('Send data to api', () => {
 		}).then(({ body }) => {
 			cy.log(body);
 			const { message, status } = body;
-			expect(message).to.deep.equal('Succesfull');
+			expect(message.User_name).to.deep.equal('test@codojo.io');
 			expect(status).to.deep.equal(200);
 		});
 	});

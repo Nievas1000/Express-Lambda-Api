@@ -3,7 +3,8 @@ const bcrypt = require('bcryptjs');
 
 // Este metodo recibe un string y lo devuelve desencriptado
 const encrypt = async (fieldToEncrypt) => {
-	const hash = await bcrypt.hash(fieldToEncrypt, 10);
+	const salt = await bcrypt.genSalt(10);
+	const hash = await bcrypt.hash(fieldToEncrypt, salt);
 	return hash;
 };
 

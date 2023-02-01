@@ -5,6 +5,7 @@ const app = express();
 const helmet = require('helmet');
 app.use(helmet());
 csrf({ cookie: true });
+app.use(express.json());
 
 app.use(
 	cors({
@@ -14,9 +15,7 @@ app.use(
 	})
 );
 
-app.use(express.json());
-
-const userRouter = require('./routes/userRoutes');
+const userRouter = require('./routes/generalRoute');
 app.use('/', userRouter);
 
 app.listen(3001, () => {

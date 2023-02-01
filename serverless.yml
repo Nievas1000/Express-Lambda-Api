@@ -1,6 +1,4 @@
-
-
-service: ApiWeb
+service: ApiConnectWeb
 frameworkVersion: '3'
 
 provider:

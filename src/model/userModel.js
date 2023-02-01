@@ -1,5 +1,5 @@
 const { default: axios } = require('axios');
-// require('dotenv').config();
+/* require('dotenv').config(); */
 
 // Consulta para obtener un usuario de la DB
 exports.getUser = async (email) => {
