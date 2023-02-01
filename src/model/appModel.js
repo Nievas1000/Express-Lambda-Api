@@ -1,6 +1,7 @@
 const { default: axios } = require('axios');
 /* require('dotenv').config(); */
 
+// Obtenemos la informacion de la aplicacion del usuario con la base de datos
 exports.getDataApp = async (type, userApplicationKey) => {
 	try {
 		const response = await axios.post(
