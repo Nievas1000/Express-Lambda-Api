@@ -21,13 +21,12 @@ exports.getUser = async (req, res) => {
 		res.json({ status: 200, message: user.body[0] });
 	} else {
 		const response = await this.createUser(userName, firstName, lastName);
-		res.json({ response });
+		res.json({ status: response.statusCode, message: response.body[0] });
 	}
 };
 
 // Pasos necesarios para registrar un usuario(fecha de creacion, encryptacion, creacion de user_pk)
 exports.createUser = async (userName, firstName, lastName) => {
-	console.log(userName, firstName, lastName);
 	const encryptFirstName = await encrypt(firstName);
 	const encryptLastName = await encrypt(lastName);
 	const date = new Date();
@@ -49,7 +48,7 @@ exports.createUser = async (userName, firstName, lastName) => {
 	);
 	console.log(user);
 	if (user) {
-		return user.statusCode;
+		return user;
 	} else {
 		return { message: 'User not found' };
 	}

@@ -31,12 +31,13 @@ exports.createUser = async (
 		query: `INSERT INTO users (User_name,First_name,Last_name,Create_date,Last_login, USER_APPLICATION_KEY) VALUES ('${userName}','${firstName}','${lastName}','${createDate}','${lastLogin}','${userApplicationKey}')`,
 	};
 	try {
-		const response = await axios.post(process.env.URL_DB, query, {
+		await axios.post(process.env.URL_DB, query, {
 			headers: {
 				'x-api-key': process.env.TOKEN_API,
 			},
 		});
-		return response.data;
+		const data = await this.getUser(userName);
+		return data;
 	} catch (error) {
 		return error;
 	}

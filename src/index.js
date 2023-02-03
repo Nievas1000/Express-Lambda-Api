@@ -9,7 +9,11 @@ app.use(express.json());
 
 app.use(
 	cors({
-		origin: ['http://localhost:3000', 'https://d3k7je3o78czwo.cloudfront.net'],
+		origin: [
+			'http://localhost:3000',
+			'https://d3k7je3o78czwo.cloudfront.net',
+			'https://app.codojo.io',
+		],
 		methods: ['GET', 'POST'],
 		credentials: true,
 	})
