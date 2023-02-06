@@ -59,3 +59,19 @@ exports.updateLastLogin = async (email, date) => {
 		return error;
 	}
 };
+
+exports.getUserToApp = async (code) => {
+	const query = {
+		query: `SELECT User_name,First_name,Last_name,Create_date,Last_login, USER_APPLICATION_KEY FROM users WHERE USER_APPLICATION_KEY = '${code}'`,
+	};
+	try {
+		const response = await axios.post(process.env.URL_DB, query, {
+			headers: {
+				'x-api-key': process.env.TOKEN_API,
+			},
+		});
+		return response.data;
+	} catch (error) {
+		return error;
+	}
+};

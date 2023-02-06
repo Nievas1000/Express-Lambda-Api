@@ -27,8 +27,14 @@ exports.getUser = async (req, res) => {
 
 // Pasos necesarios para registrar un usuario(fecha de creacion, encryptacion, creacion de user_pk)
 exports.createUser = async (userName, firstName, lastName) => {
-	const encryptFirstName = await encrypt(firstName);
-	const encryptLastName = await encrypt(lastName);
+	const encryptFirstName =
+		firstName === undefined || firstName === null
+			? null
+			: await encrypt(firstName);
+	const encryptLastName =
+		lastName === undefined || lastName === null
+			? null
+			: await encrypt(lastName);
 	const date = new Date();
 	const dateNow = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(
 		-2
@@ -81,5 +87,19 @@ exports.getDataByGitHub = async (req, res) => {
 		res.send({ data });
 	} catch (error) {
 		res.send({ message: 'Cannot get data to user' });
+	}
+};
+
+exports.getUserToApp = async (req, res) => {
+	if (req.body.code) {
+		const code = req.body.code;
+		const user = await userModel.getUserToApp(code);
+		if (user.body.length > 0) {
+			res.json({ status: 200, message: 'User exist!' });
+		} else {
+			res.status(400).json({ message: 'User doesnt exist' });
+		}
+	} else {
+		res.status(400).json({ message: 'Incorrect body.' });
 	}
 };
