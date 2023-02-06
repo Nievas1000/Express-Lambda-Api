@@ -20,8 +20,12 @@ exports.getUser = async (req, res) => {
 		await userModel.updateLastLogin(userName, dateNow);
 		res.json({ status: 200, message: user.body[0] });
 	} else {
-		const response = await this.createUser(userName, firstName, lastName);
-		res.json({ status: response.statusCode, message: response.body[0] });
+		if (userName) {
+			const response = await this.createUser(userName, firstName, lastName);
+			res.json({ status: response.statusCode, message: response.body[0] });
+		} else {
+			res.status(502).json({ message: 'Internal server error' });
+		}
 	}
 };
 

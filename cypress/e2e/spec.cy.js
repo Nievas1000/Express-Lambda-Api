@@ -26,6 +26,7 @@ describe('Send data to api', () => {
 			body: bodyTestFailure,
 			failOnStatusCode: false,
 		}).then(({ body, status }) => {
+			cy.log(body);
 			expect(body.message).to.deep.equal('Internal server error');
 			expect(status).to.deep.equal(502);
 		});
