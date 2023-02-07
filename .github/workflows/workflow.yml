@@ -60,6 +60,7 @@ jobs:
         env: 
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ERROR }}
   test:
+    if: ${{ github.event_name == 'push' }}
     needs: [lint]
     runs-on: ubuntu-latest
     steps: 
@@ -74,6 +75,7 @@ jobs:
         uses: cypress-io/github-action@v4
         env:
           CYPRESS_api_url: ${{secrets.API_URL}}
+          CYPRESS_token_api: ${{secrets.TOKEN_API}}
       - name: Send Slack Notification on Failure
         if: ${{ failure() }}
         uses: 8398a7/action-slack@v3
@@ -84,11 +86,11 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ERROR }}
 
   slack_pull_request:
+    if: ${{ github.event_name == 'pull_request' }}
     needs: [lint, security]
     runs-on: ubuntu-latest
     steps:
     - name: Notify slack pull request open
-      if: ${{ github.event_name == 'pull_request' }}
       env: 
         SLACK_WEBHOOK_URL : ${{secrets.SLACK_PULL_REQUEST_WEBHOOK}}
         PULL_REQUEST_NUMBER : ${{ github.event.pull_request.number }}

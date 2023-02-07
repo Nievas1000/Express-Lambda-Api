@@ -4,11 +4,22 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs16.x
+  apiGateway:
+    apiKeys:
+    - apiKey
 
 functions:
   hello:
     handler: handler.hello
     events:
-      - http: ANY /{proxy+}
-      - http: ANY /
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+          private: true
+      - http:
+          path: /
+          method: ANY
+          cors: true
+          private: true
     

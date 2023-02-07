@@ -12,6 +12,9 @@ describe('Send data to api', () => {
 			method: 'POST',
 			url: Cypress.env('api_url'),
 			body: bodyTest,
+			headers: {
+				'x-api-key': Cypress.env('token_api'),
+			},
 		}).then(({ body }) => {
 			cy.log(body);
 			const { message, status } = body;
@@ -24,6 +27,9 @@ describe('Send data to api', () => {
 			method: 'POST',
 			url: Cypress.env('api_url'),
 			body: bodyTestFailure,
+			headers: {
+				'x-api-key': Cypress.env('token_api'),
+			},
 			failOnStatusCode: false,
 		}).then(({ body, status }) => {
 			cy.log(body);

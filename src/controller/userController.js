@@ -56,7 +56,6 @@ exports.createUser = async (userName, firstName, lastName) => {
 		dateNow,
 		userApplicationKey
 	);
-	console.log(user);
 	if (user) {
 		return user;
 	} else {
