@@ -24,7 +24,7 @@ exports.getUser = async (req, res) => {
 			const response = await this.createUser(userName, firstName, lastName);
 			res.json({ status: response.statusCode, message: response.body[0] });
 		} else {
-			res.status(502).json({ message: 'Internal server error' });
+			res.status(500).json({ message: 'Error.' });
 		}
 	}
 };
@@ -59,7 +59,7 @@ exports.createUser = async (userName, firstName, lastName) => {
 	if (user) {
 		return user;
 	} else {
-		return { message: 'User not found' };
+		return { message: 'Error.' };
 	}
 };
 
@@ -89,7 +89,7 @@ exports.getDataByGitHub = async (req, res) => {
 		const data = response.data;
 		res.send({ data });
 	} catch (error) {
-		res.send({ message: 'Cannot get data to user' });
+		res.send({ message: 'Error.' });
 	}
 };
 
@@ -98,11 +98,11 @@ exports.getUserToApp = async (req, res) => {
 		const code = req.body.code;
 		const user = await userModel.getUserToApp(code);
 		if (user.body.length > 0) {
-			res.json({ status: 200, message: 'User exist!' });
+			res.status(200).json({ message: 'User exist!' });
 		} else {
-			res.status(400).json({ message: 'User doesnt exist' });
+			res.status(502).json({ message: 'Error.' });
 		}
 	} else {
-		res.status(400).json({ message: 'Incorrect body.' });
+		res.status(502).json({ message: 'Error.' });
 	}
 };
