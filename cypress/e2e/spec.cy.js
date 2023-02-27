@@ -6,6 +6,12 @@ const bodyTest = {
 
 const bodyTestFailure = {};
 
+const bodyTestSqlInjection = {
+	email: 'OR 1=1',
+	firstName: 'test',
+	lastName: 'codojo',
+};
+
 describe('Send data to api', () => {
 	it('Post test on succes', () => {
 		cy.request({
@@ -33,8 +39,23 @@ describe('Send data to api', () => {
 			failOnStatusCode: false,
 		}).then(({ body, status }) => {
 			cy.log(body);
+			expect(body.message).to.deep.equal('Internal server error');
+			expect(status).to.deep.equal(502);
+		});
+	});
+	it('Sql injection to fail', () => {
+		cy.request({
+			method: 'POST',
+			url: Cypress.env('api_url'),
+			body: bodyTestSqlInjection,
+			headers: {
+				'x-api-key': Cypress.env('token_api'),
+			},
+			failOnStatusCode: false,
+		}).then(({ body, status }) => {
+			cy.log(body);
 			expect(body.message).to.deep.equal('Error.');
-			expect(status).to.deep.equal(500);
+			expect(status).to.deep.equal(400);
 		});
 	});
 });

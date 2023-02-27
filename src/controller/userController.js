@@ -98,11 +98,15 @@ exports.getDataByGitHub = async (req, res) => {
 exports.getUserToApp = async (req, res) => {
 	if (req.body.code) {
 		const code = req.body.code;
-		const user = await userModel.getUserToApp(code);
-		if (user.body.length > 0) {
-			res.status(200).json({ message: 'User exist!' });
+		if (!code.includes('=') || code.includes(';')) {
+			const user = await userModel.getUserToApp(code);
+			if (user.body.length > 0) {
+				res.status(200).json({ message: 'User exist!' });
+			} else {
+				res.status(502).json({ message: 'Error.' });
+			}
 		} else {
-			res.status(502).json({ message: 'Error.' });
+			return res.status(400).json({ message: 'Error.' });
 		}
 	} else {
 		res.status(502).json({ message: 'Error.' });
