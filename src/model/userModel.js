@@ -75,3 +75,19 @@ exports.getUserToApp = async (code) => {
 		return error;
 	}
 };
+
+exports.deleteUser = async (key) => {
+	const query = {
+		query: `UPDATE users SET User_name = null, First_name = null, Last_name = null WHERE USER_APPLICATION_KEY = '${key}'`,
+	};
+	try {
+		const response = await axios.post(process.env.URL_DB, query, {
+			headers: {
+				'x-api-key': process.env.TOKEN_API,
+			},
+		});
+		return response.data;
+	} catch (error) {
+		return error;
+	}
+};

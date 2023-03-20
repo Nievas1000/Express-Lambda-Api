@@ -112,3 +112,21 @@ exports.getUserToApp = async (req, res) => {
 		res.status(502).json({ message: 'Error.' });
 	}
 };
+
+exports.deleteUser = async (req, res) => {
+	if (req.body.code) {
+		const code = req.body.code;
+		if (!code.includes('=') || code.includes(';')) {
+			const user = await userModel.deleteUser(code);
+			if (user) {
+				res.status(200).json({ message: 'User deleted!' });
+			} else {
+				res.status(502).json({ message: 'Error.' });
+			}
+		} else {
+			return res.status(400).json({ message: 'Error.' });
+		}
+	} else {
+		res.status(502).json({ message: 'Error.' });
+	}
+};
