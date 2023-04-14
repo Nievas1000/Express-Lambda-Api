@@ -9,5 +9,6 @@ router.route('/login').post(userController.getUser);
 router.route('/app').post(appController.getApp);
 router.route('/getUserToApp').post(userController.getUserToApp);
 router.route('/deleteUser').post(userController.deleteUser);
+router.route('/deleteApp').post(appController.deleteApp);
 
 module.exports = router;

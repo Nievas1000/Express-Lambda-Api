@@ -12,7 +12,7 @@ app.use(
 		origin: [
 			'http://localhost:3000',
 			'https://d3k7je3o78czwo.cloudfront.net',
-			'https://app.codojo.io',
+			'https://app.taffi.io',
 		],
 		methods: ['GET', 'POST'],
 		credentials: true,
