@@ -16,6 +16,22 @@
 2. Install dependencies: `npm install`
 3. Start the development server: `npm run dev`
 
+## Serverless Deployment
+
+This project uses the serverless framework to deploy the Lambda function to AWS.
+
+### Prerequisites
+
+Before deploying the Lambda function, make sure you have the following:
+
+- An AWS account
+- The AWS CLI installed and configured with your account credentials
+- The serverless framework installed globally on your machine
+
+To deploy the Lambda function, run the following command:
+
+### `serverless deploy`
+
 ## Testing
 
 We use Cypress for end-to-end testing. To run the tests, use the following command:
